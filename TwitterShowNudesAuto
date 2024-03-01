@@ -1,0 +1,44 @@
+// ==UserScript==
+// @name         clickShow
+// @namespace    http://tampermonkey.net/
+// @version      2024-03-01
+// @description  Click the show nudes automaticaly on twitter
+// @author       You
+// @match        https://twitter.com/*
+// @icon         https://www.google.com/s2/favicons?sz=64&domain=twitter.com
+// @grant        none
+// ==/UserScript==
+
+(function() {
+    'use strict';
+
+// Function to click the specific "Show" element
+function clickShowElement() {
+    var elements = document.querySelectorAll('span.css-1qaijid');
+    elements.forEach(function(element) {
+        if (element.textContent.trim() === "Show" && isElementVisible(element)) {
+            element.click();
+        }
+    });
+}
+
+// Function to check if an element is visible on the page
+function isElementVisible(element) {
+    var rect = element.getBoundingClientRect();
+    return (
+        rect.top >= 0 &&
+        rect.left >= 0 &&
+        rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+        rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+    );
+}
+
+// Function to continuously monitor the page for the "Show" element and click it when it appears
+function monitorPageForShowElement() {
+    setInterval(clickShowElement, 500); // Adjust the interval as needed (e.g., 1000 milliseconds = 1 second)
+}
+
+// Start monitoring the page
+monitorPageForShowElement();
+
+})();
